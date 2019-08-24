@@ -69,9 +69,8 @@ class Launcher:
 
         # Get rid of bullets that have disappeared.
         for bullet in self.bullets.copy():
-            if bullet.rect.top <= 0:
+            if bullet.rect.x > self.settings.screen_width:
                  self.bullets.remove(bullet)
-            print(len(self.bullets))
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
