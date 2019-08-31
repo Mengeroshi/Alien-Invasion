@@ -7,6 +7,7 @@ from ship import Ship
 from sarturn import Saturn
 from bullet import Bullet
 from alien import Alien
+from star import Star
 
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
@@ -25,8 +26,10 @@ class AlienInvasion:
         self.saturn =Saturn(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
+        self.stars = pygame.sprite.Group()
 
         self._create_fleet()
+        self._create_constellation()
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -101,7 +104,33 @@ class AlienInvasion:
         alien.x = alien_width + 2 * alien.rect.height * alien_number
         alien.rect.x = alien.x
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
-        self.aliens.add(alien)   
+        self.aliens.add(alien)
+
+    def _create_constellation(self):
+        star = Star(self)
+
+        #Determine horizontal space
+        star_width, star_height = star.rect.size
+        milkyway_x = self.settings.screen_width #- (2* star_width)
+        number_stars = milkyway_x // (1* star_width)
+
+        #Determine vertical space
+        milkyway_y = self.settings.screen_height
+        number_star_rows = milkyway_y // (2*star_height)
+
+        for row_star in range (number_star_rows):
+            for star_number  in range (number_stars):
+                self._create_star(star_number, row_star)
+
+    def _create_star(self, star_number, row_star):
+        star = Star(self)
+        star_width, star_height = star.rect.size
+        #Create a line of stars
+        star.x = star_width + 2 * star_width * star_number
+        star.rect.x  = star.x
+        #Create a serie of row of stars
+        star.rect.y = star.rect.height + 2 * star_height * row_star
+        self.stars.add(star)   
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
@@ -113,6 +142,7 @@ class AlienInvasion:
             bullet.draw_bullet()
 
         self.aliens.draw(self.screen)
+        self.stars.draw(self.screen)
 
         pygame.display.flip()
 
