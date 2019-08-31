@@ -9,6 +9,8 @@ from bullet import Bullet
 from alien import Alien
 from star import Star
 
+from  random import randint
+
 class AlienInvasion:
     """Overall class to manage game assets and behavior."""
 
@@ -126,10 +128,10 @@ class AlienInvasion:
         star = Star(self)
         star_width, star_height = star.rect.size
         #Create a line of stars
-        star.x = star_width + 2 * star_width * star_number
+        star.x = star_width + 2 * star_width * randint(-20,star_number)
         star.rect.x  = star.x
         #Create a serie of row of stars
-        star.rect.y = star.rect.height + 2 * star_height * row_star
+        star.rect.y = star.rect.height + 2 * star_height * randint(-20,row_star)
         self.stars.add(star)   
 
     def _update_screen(self):
