@@ -3,6 +3,7 @@ import pygame
 import sys
 from settings import Settings
 from bullet import Bullet
+from alien import Alien
 
 class Launcher:
     """Overall class to manage game assets and behavior."""
@@ -19,6 +20,9 @@ class Launcher:
 
         self.rocket = Rocket(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -26,6 +30,7 @@ class Launcher:
             self._check_events()
             self.rocket.update()
             self._update_bullets()
+            self._update_alien()
             self._update_screen()
 
     def _check_events(self):
@@ -71,6 +76,59 @@ class Launcher:
         for bullet in self.bullets.copy():
             if bullet.rect.x > self.settings.screen_width:
                  self.bullets.remove(bullet)
+                 
+        self._check_bullet_alien_collision()
+        
+    def _check_bullet_alien_collision(self):    
+        collisions = pygame.sprite.groupcollide(
+            self.bullets, self.aliens, True, True)
+
+        if not self.aliens:
+            self.bullets.empty()
+            self._create_fleet()
+
+    def _update_alien(self):
+        self._check_fleet_edges()
+        self.aliens.update()
+
+
+    def _create_fleet(self):
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        available_space_y = self.settings.screen_height #-  (2* alien_height)
+        number_aliens_y  = available_space_y // (2* alien_height)
+        
+        rocket_width = self.rocket.rect.width
+        availble_space_x = self.settings.screen_width 
+        number_rows = availble_space_x // (2* alien_width) - 5 
+
+        for row_number in  range (number_rows):
+            for alien_number in range(number_aliens_y):
+                self._create_alien(alien_number, row_number)
+        
+
+    def _create_alien(self, alien_number, row_number):
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        rocket_width = self.rocket.rect.width
+
+        alien.y = alien_height + 2 * alien_height * alien_number
+        alien.rect.y = alien.y
+
+        alien.rect.x = (alien.rect.width + 2 * alien.rect.width * row_number)  + ((8 * alien_width) + rocket_width)
+        self.aliens.add(alien)
+
+
+    def _check_fleet_edges(self):
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+    
+    def _change_fleet_direction(self):
+        for alien in self.aliens.sprites():
+            alien.rect.x -= self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
@@ -78,6 +136,8 @@ class Launcher:
         self.rocket.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+            
+        self.aliens.draw(self.screen)
         
         pygame.display.flip()
 
