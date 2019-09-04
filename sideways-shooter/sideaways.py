@@ -1,9 +1,12 @@
-from rocket_side import Rocket
+
 import pygame
 import sys
 from settings import Settings
 from bullet import Bullet
 from alien import Alien
+from rocket_side import Rocket
+from game_stats import GameStats
+from time import sleep
 
 class Launcher:
     """Overall class to manage game assets and behavior."""
@@ -22,15 +25,19 @@ class Launcher:
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
 
+        self.stats = GameStats(self)
+
         self._create_fleet()
 
     def run_game(self):
         """Start the main loop for the game."""
         while True:
             self._check_events()
-            self.rocket.update()
-            self._update_bullets()
-            self._update_alien()
+            if self.stats.game_active:
+                self.rocket.update()
+                self._update_bullets()
+                self._update_alien()
+
             self._update_screen()
 
     def _check_events(self):
@@ -79,6 +86,7 @@ class Launcher:
                  
         self._check_bullet_alien_collision()
         
+
     def _check_bullet_alien_collision(self):    
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True)
@@ -87,9 +95,38 @@ class Launcher:
             self.bullets.empty()
             self._create_fleet()
 
+
     def _update_alien(self):
         self._check_fleet_edges()
         self.aliens.update()
+
+        if pygame.sprite.spritecollideany(self.rocket, self.aliens):
+            self._rocket_hit()
+        
+        self._check_aliens_bottom()
+
+    
+    def _check_aliens_bottom(self):
+        screen_rect = self.screen.get_rect()
+        for alien in self.aliens.sprites():
+            if alien.rect.left <= screen_rect.left:
+                self._rocket_hit()
+                break    
+
+
+    def _rocket_hit(self):
+        if self.stats.rockets_left > 0:
+            self.stats.rockets_left -= 1
+
+            self.aliens.empty()
+            self.bullets.empty()
+
+            self._create_fleet()
+            self.rocket.center_ship()
+
+            sleep(0.5)
+
+        else: self.stats.game_active = False        
 
 
     def _create_fleet(self):
