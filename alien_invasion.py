@@ -98,11 +98,14 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
     
+
     def _update_aliens(self):
         self._check_fleet_edges()
-        
         self.aliens.update()
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("hit it")
     
+
     def _create_fleet(self):
         
         alien = Alien(self)
