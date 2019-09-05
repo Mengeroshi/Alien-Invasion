@@ -34,7 +34,7 @@ class AlienInvasion:
         self.stars = pygame.sprite.Group()
 
         self.stats = GameStats(self)
-        self.play_button = Button(self, "Play")
+        self.play_button = Button(self, "Press 'P' to  Play")
 
         self._create_fleet()
         self._create_constellation()
@@ -60,13 +60,13 @@ class AlienInvasion:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                self._check_play_button(mouse_pos)
+            #elif event.type == pygame.MOUSEBUTTONDOWN:
+            #    mouse_pos = pygame.mouse.get_pos()
+            #    self._check_play_button(mouse_pos)
 
     
-    def _check_play_button(self, mouse_pos):
-        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+    def _check_play_button(self):
+        button_clicked =  True #self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked  and not self.stats.game_active:
             self.stats.reset_stats()
             self.stats.game_active = True
@@ -91,6 +91,8 @@ class AlienInvasion:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        elif event.key == pygame.K_p:
+            self._check_play_button()
 
     def _check_keyup_events(self, event):
         """Respond to key releases."""
@@ -161,7 +163,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.stats.game_active = False
-            pygmae.mouse.set_visible(True)
+            pygame.mouse.set_visible(True)
 
     
 
