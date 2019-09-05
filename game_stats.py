@@ -3,7 +3,7 @@ class GameStats:
 
         self.settings = ai_game.settings
         
-        self.game_active = True
+        self.game_active = False
 
         self.reset_stats()
 

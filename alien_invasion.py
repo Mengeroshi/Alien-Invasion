@@ -1,4 +1,5 @@
 import sys
+from time import sleep
 
 import pygame
 
@@ -9,7 +10,7 @@ from bullet import Bullet
 from alien import Alien
 from star import Star
 from game_stats import GameStats
-from time import sleep
+from button import Button
 
 from  random import randint
 
@@ -33,6 +34,7 @@ class AlienInvasion:
         self.stars = pygame.sprite.Group()
 
         self.stats = GameStats(self)
+        self.play_button = Button(self, "Play")
 
         self._create_fleet()
         self._create_constellation()
@@ -216,6 +218,9 @@ class AlienInvasion:
 
         self.aliens.draw(self.screen)
         self.stars.draw(self.screen)
+
+        if not self.stats.game_active:
+            self.play_button.draw_button()
 
         pygame.display.flip()
 
