@@ -1,6 +1,6 @@
 import pygame.font
  
-class Easy:
+class Normal:
  
     def __init__(self, ai_game, msg):
         """Initialize button attributes."""
@@ -9,13 +9,13 @@ class Easy:
         
         # Set the dimensions and properties of the button.
         self.width, self.height = 200, 50
-        self.button_color = (0, 255 , 0)
+        self.button_color = (255, 255 , 0)
         self.text_color = (255, 255, 255)
         self.font = pygame.font.SysFont(None, 48)
         
         # Build the button's rect object and center it.
         self.rect = pygame.Rect(0, 0, self.width, self.height)
-        self.rect.bottomleft = self.screen_rect.bottomleft
+        self.rect.midbottom = self.screen_rect.midbottom
         
         # The button message needs to be prepped only once.
         self._prep_msg(msg)
