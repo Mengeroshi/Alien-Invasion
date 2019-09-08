@@ -11,7 +11,7 @@ from alien import Alien
 from star import Star
 from game_stats import GameStats
 from button import Button
-from dificulty import Hard
+from hard_button import Hard
 
 from  random import randint
 
