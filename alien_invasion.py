@@ -11,6 +11,7 @@ from alien import Alien
 from star import Star
 from game_stats import GameStats
 from button import Button
+from dificulty import Hard
 
 from  random import randint
 
@@ -34,7 +35,9 @@ class AlienInvasion:
         self.stars = pygame.sprite.Group()
 
         self.stats = GameStats(self)
-        self.play_button = Button(self, "Press 'P' to  Play")
+        self.play_button = Button(self, "Play")
+
+        self.proof_button = Hard(self, "Hard")
 
         self._create_fleet()
         self._create_constellation()
@@ -247,10 +250,12 @@ class AlienInvasion:
             bullet.draw_bullet()
 
         self.aliens.draw(self.screen)
-        self.stars.draw(self.screen)
+        #self.stars.draw(self.screen)
 
         if not self.stats.game_active:
             self.play_button.draw_button()
+            self.proof_button.draw_button()
+            #self.proof_button_2.draw_button()
 
         pygame.display.flip()
 
