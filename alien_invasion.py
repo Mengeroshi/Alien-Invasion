@@ -39,9 +39,9 @@ class AlienInvasion:
         self.stats = GameStats(self)
         self.play_button = Button(self, "Play")
 
-        self.proof_button = Hard(self, "Hard")
-        self.proof_button_2 = Easy(self, "Easy")
-        self.proof_button_3 = Normal(self, "Normal")
+        self.hard_button = Hard(self, "Hard")
+        self.easy_button = Easy(self, "Easy")
+        self.normal_button = Normal(self, "Normal")
 
         self._create_fleet()
         self._create_constellation()
@@ -74,9 +74,9 @@ class AlienInvasion:
     
     def _check_play_button(self, mouse_pos):
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        easy_clicked = self.proof_button_2.rect.collidepoint(mouse_pos)
-        normal_clicked = self.proof_button_3.rect.collidepoint(mouse_pos)
-        hard_clicked = self.proof_button.rect.collidepoint(mouse_pos)
+        easy_clicked = self.easy_button.rect.collidepoint(mouse_pos)
+        normal_clicked = self.normal_button.rect.collidepoint(mouse_pos)
+        hard_clicked = self.hard_button.rect.collidepoint(mouse_pos)
 
         if button_clicked or easy_clicked and not self.stats.game_active:
             self._start_game()
@@ -270,9 +270,9 @@ class AlienInvasion:
 
         if not self.stats.game_active:
             self.play_button.draw_button()
-            self.proof_button.draw_button()
-            self.proof_button_2.draw_button()
-            self.proof_button_3.draw_button()
+            self.hard_button.draw_button()
+            self.easy_button.draw_button()
+            self.normal_button.draw_button()
 
         pygame.display.flip()
 
