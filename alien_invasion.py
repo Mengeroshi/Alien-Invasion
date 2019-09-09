@@ -14,6 +14,7 @@ from button import Button
 from hard_button import Hard
 from easy_button import Easy
 from normal_button import Normal
+from scoreboard import Scoreboard
 
 from  random import randint
 
@@ -42,6 +43,8 @@ class AlienInvasion:
         self.hard_button = Hard(self, "Hard")
         self.easy_button = Easy(self, "Easy")
         self.normal_button = Normal(self, "Normal")
+
+        self.sb = Scoreboard(self)
 
         self._create_fleet()
         self._create_constellation()
@@ -267,6 +270,7 @@ class AlienInvasion:
 
         self.aliens.draw(self.screen)
         self.stars.draw(self.screen)
+        self.sb.show_score()
 
         if not self.stats.game_active:
             self.play_button.draw_button()
