@@ -96,7 +96,11 @@ class AlienInvasion:
     def _start_game(self):
         self.settings.initialize_dynamic_settings()
         self.stats.reset_stats()
+
         self.sb.prep_score()
+        self.sb.prep_level()
+        self.sb.prep_ships()
+
         self.stats.game_active = True
 
         self.aliens.empty()
@@ -189,6 +193,7 @@ class AlienInvasion:
         if self.stats.ships_left > 0:
         #Decrement the ships by 1
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             #Erease remaining bullets
             self.aliens.empty()

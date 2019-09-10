@@ -18,7 +18,7 @@ class Settings:
         self.fleet_drop_speed = 10
 
         #Stats
-        self.ship_limit = 0
+        self.ship_limit = 3
         self.speedup_scale = 1.1
         self.score_scale = 1.5
 
