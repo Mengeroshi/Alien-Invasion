@@ -4,6 +4,7 @@ class GameStats:
         self.settings = ai_game.settings
         
         self.game_active = False
+        self.high_score = 0
 
         self.reset_stats()
 
