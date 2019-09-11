@@ -285,7 +285,7 @@ class AlienInvasion:
             bullet.draw_bullet()
 
         self.aliens.draw(self.screen)
-        self.stars.draw(self.screen)
+        #self.stars.draw(self.screen)
 
         self.sb.show_score()
 
