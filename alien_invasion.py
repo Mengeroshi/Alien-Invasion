@@ -98,6 +98,7 @@ class AlienInvasion:
         self.stats.reset_stats()
 
         self.sb.prep_score()
+        self.stats.level = 1
         self.sb.prep_level()
         self.sb.prep_ships()
 
